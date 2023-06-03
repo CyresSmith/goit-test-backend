@@ -3,7 +3,9 @@ const router = express.Router();
 
 const { usersController } = require('../controller');
 
-router.post('/', usersController.getAll);
+router.get('/', usersController.getAll);
+
+router.post('/', usersController.getUsers);
 
 router.patch('/:_id/follow', usersController.follow);
 

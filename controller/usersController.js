@@ -6,6 +6,13 @@ const { httpError, ctrlWrapper } = require('../helpers');
 const totalPages = (total, limit) => Math.ceil(total / limit);
 
 const getAllUsers = async (req, res) => {
+  const users = await User.find({});
+  const total = await User.countDocuments({});
+
+  res.status(200).json({ users, total });
+};
+
+const getUsers = async (req, res) => {
   const { type = all, page = 1, limit = 3 } = req.query;
 
   const Followings = req.body;
@@ -48,7 +55,7 @@ const follow = async (req, res) => {
     { new: true }
   );
 
-  res.status(201).json(result);
+  res.status(200).json(result);
 };
 
 const unfollow = async (req, res) => {
@@ -62,10 +69,11 @@ const unfollow = async (req, res) => {
     { new: true }
   );
 
-  res.status(201).json(result);
+  res.status(200).json(result);
 };
 
 module.exports = {
+  getUsers: ctrlWrapper(getUsers),
   getAll: ctrlWrapper(getAllUsers),
   follow: ctrlWrapper(follow),
   unfollow: ctrlWrapper(unfollow),
